@@ -75,25 +75,22 @@ document.addEventListener('DOMContentLoaded', function() {
         if (copyButton) copyButton.disabled = true;
         if (pdfButton) pdfButton.disabled = true;
 
-        // Скрываем весь контент загрузки
-        const uploadContent = document.querySelector('#ml-transcriber-upload-box > *:not(#ml-transcriber-transcription-output)');
-        if (uploadContent) {
-            uploadContent.style.display = 'none';
+        // Hide upload box and show transcription output area
+        const uploadBox = document.getElementById('ml-transcriber-upload-box');
+        if (uploadBox) {
+            uploadBox.style.display = 'none';
         }
-
         if (transcriptionOutput) {
             transcriptionOutput.style.display = 'block';
-            // Clear content of transcription output area, but keep the header and skeleton
-            const existingDynamicContent = transcriptionOutput.querySelectorAll('.ml-transcript-section, p.no-transcription-message, .ml-error-message');
-            existingDynamicContent.forEach(node => node.remove());
+        }
 
-            if (skeletonLoading) {
-                skeletonLoading.style.display = 'block';
-                skeletonLoading.classList.remove('hidden');
-            }
-            if (transcriptionContent) {
-                transcriptionContent.style.display = 'none';
-            }
+        // Ensure existing transcription content is cleared before showing skeleton
+        if (transcriptionContent) {
+            transcriptionContent.innerHTML = '';
+        }
+        if (skeletonLoading) {
+            skeletonLoading.style.display = 'block';
+            skeletonLoading.classList.remove('hidden');
         }
 
         fileNameDisplay.textContent = '';
@@ -164,9 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderTranscription(lines) {
         if (!transcriptionContent) return;
 
-        // Remove any existing transcription content, but keep header and skeleton loader
-        const existingContent = transcriptionContent.querySelectorAll('.ml-transcript-section, p.no-transcription-message, .ml-error-message');
-        existingContent.forEach(node => node.remove());
+        // Clear any existing transcription content
+        transcriptionContent.innerHTML = '';
 
         if (lines.length === 0) {
             const noTransText = document.createElement('p');
@@ -211,10 +207,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 skeletonLoading.classList.add('hidden');
             }
 
-            // Скрываем весь контент загрузки
-            const uploadContent = document.querySelector('#ml-transcriber-upload-box > *:not(#ml-transcriber-transcription-output)');
-            if (uploadContent) {
-                uploadContent.style.display = 'none';
+            // Убеждаемся, что uploadBox скрыт
+            const uploadBox = document.getElementById('ml-transcriber-upload-box');
+            if (uploadBox) {
+                uploadBox.style.display = 'none';
             }
 
             // Показываем контейнер для ошибки
@@ -222,9 +218,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 transcriptionOutput.style.display = 'block';
             }
 
-            // Очищаем существующий контент
-            const existingContent = transcriptionContent.querySelectorAll('.ml-transcript-section, p.no-transcription-message, .ml-error-message');
-            existingContent.forEach(node => node.remove());
+            // Удаляем существующий контейнер ошибки, если он есть
+            const existingErrorContainer = transcriptionContent.querySelector('.ml-error-container');
+            if (existingErrorContainer) {
+                existingErrorContainer.remove();
+            }
+
+            // Очищаем существующий контент (на случай, если что-то осталось)
+            transcriptionContent.innerHTML = '';
 
             // Показываем контент для ошибки
             transcriptionContent.style.display = 'block';
@@ -262,9 +263,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reset buttons
                 if (copyButton) copyButton.disabled = true;
                 if (pdfButton) pdfButton.disabled = true;
-                // Show upload content again
-                if (uploadContent) {
-                    uploadContent.style.display = '';
+                // Show upload box again
+                if (uploadBox) {
+                    uploadBox.style.display = 'block';
                 }
                 // Hide transcription output area
                 if (transcriptionOutput) {
@@ -279,6 +280,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (transcriptionContent) {
                     transcriptionContent.style.display = 'none';
                 }
+                // Remove the error container itself from the DOM to prevent duplication
+                errorContainer.remove();
             });
 
             transcriptionContent.appendChild(errorContainer);
@@ -309,16 +312,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             textToCopy += footer;
-
-            navigator.clipboard.writeText(textToCopy.trim()).then(() => {
-                const originalHtml = copyButton.innerHTML;
-                copyButton.innerHTML = '<svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copied!';
-                setTimeout(() => {
-                    copyButton.innerHTML = originalHtml;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-                showErrorInOutput('Failed to copy transcription.');
+            
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                console.log('Text copied to clipboard');
+                // Optionally, provide user feedback
+                // alert('Transcription copied to clipboard!');
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
             });
         });
     }
@@ -363,12 +363,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.download = 'transcript.pdf';
                 document.body.appendChild(a);
                 a.click();
-
-                window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
             } catch (error) {
-                console.error('PDF generation error:', error);
-                showErrorInOutput('Failed to generate PDF: ' + error.message);
+                showErrorInOutput(error.message);
             } finally {
                 pdfButton.disabled = false;
                 pdfButton.innerHTML = originalHtml;
