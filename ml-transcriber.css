@@ -233,7 +233,7 @@ body {
 }
 
 #ml-transcriber-section *:not(svg):not(svg *) {
-    all: revert;
+    all: unset;
 }
 
 #ml-transcriber-section svg,
