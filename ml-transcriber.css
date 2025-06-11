@@ -3,10 +3,13 @@
 /* Изолированные стили для виджета */
 #ml-transcriber-section {
     height: 100%;
+    min-height: 500px;
     margin: 0;
     padding: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 #ml-transcriber-section * {
@@ -212,21 +215,13 @@
     }
 }
 
-#ml-transcriber-section #fixed-size-container {
-    width: 600px !important;
-    height: 500px !important;
-    margin: 50px auto !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 10px !important;
-}
-
 #ml-transcriber-section #ml-transcriber-container {
     max-width: 48rem !important;
     width: 100% !important;
-    text-align: center !important;
-    margin: 0 auto !important;
+    height: 100% !important;
+    min-height: inherit;
+    display: flex;
+    flex-direction: column;
 }
 
 #ml-transcriber-section #ml-transcriber-title {
@@ -245,6 +240,10 @@
 #ml-transcriber-section #ml-transcriber-upload-box {
     width: 100% !important;
     max-width: 42rem !important;
+    height: 100% !important;
+    min-height: inherit;
+    display: flex;
+    flex-direction: column;
     margin: 0 auto 0.5rem !important;
     border-radius: 1.5rem !important;
     background-color: white !important;
@@ -253,23 +252,22 @@
     padding: 1.5rem 1rem !important;
     box-sizing: border-box !important;
     overflow-y: auto !important;
-    max-height: 400px !important;
     position: relative !important;
 }
 
 #ml-transcriber-section #ml-transcriber-dropzone {
     width: 100% !important;
     height: 100% !important;
-    border: 2px dashed #d2d6e1 !important;
+    min-height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem !important;
+    border: 2px dashed #e2e8f0 !important;
     border-radius: 1rem !important;
-    padding: 1rem !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-height: 140px !important;
-    background-color: #fafbfc !important;
-    box-sizing: border-box !important;
+    background-color: #f8fafc !important;
+    transition: all 0.3s ease !important;
 }
 
 #ml-transcriber-section #ml-transcriber-button {
