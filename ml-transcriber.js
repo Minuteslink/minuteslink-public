@@ -1,4 +1,4 @@
-// Определяем веб-компонент
+// Define web component
 class MLTranscriber extends HTMLElement {
     constructor() {
         super();
@@ -6,7 +6,7 @@ class MLTranscriber extends HTMLElement {
     }
 
     connectedCallback() {
-        // Создаем стили
+        // Create styles
         const style = document.createElement('style');
         style.textContent = `
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -324,7 +324,7 @@ class MLTranscriber extends HTMLElement {
             }
         `;
 
-        // Создаем HTML структуру
+        // Create HTML structure
         const template = document.createElement('template');
         template.innerHTML = `
             <div id="ml-transcriber-container">
@@ -396,11 +396,11 @@ class MLTranscriber extends HTMLElement {
             </div>
         `;
 
-        // Добавляем стили и шаблон в Shadow DOM
+        // Add styles and template to Shadow DOM
         this.shadowRoot.appendChild(style);
         this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-        // Инициализируем обработчики событий
+        // Initialize event listeners
         this.initializeEventListeners();
     }
 
@@ -465,7 +465,7 @@ class MLTranscriber extends HTMLElement {
             if (copyButton) copyButton.disabled = true;
             if (pdfButton) pdfButton.disabled = true;
 
-            // Скрываем dropzone во время отправки запроса
+            // Hide dropzone during request
             if (dropzone) {
                 dropzone.style.display = 'none';
             }
@@ -547,24 +547,56 @@ class MLTranscriber extends HTMLElement {
         };
 
         const uploadFile = async (file) => {
-            const formData = new FormData();
-            formData.append('file', file);
-
             try {
-                const response = await fetch('http://localhost:8000/transcribe', {
+                console.log('Starting file upload...', {
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type
+                });
+
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('language', 'ru');
+
+                console.log('Sending request to server...', {
+                    url: 'https://widget-transcriber-backend-production.up.railway.app/transcribe',
+                    method: 'POST',
+                    formDataKeys: Array.from(formData.keys())
+                });
+
+                const response = await fetch('https://widget-transcriber-backend-production.up.railway.app/transcribe', {
                     method: 'POST',
                     body: formData
                 });
 
-                const data = await response.json();
+                console.log('Server response received:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries())
+                });
 
                 if (!response.ok) {
-                    throw new Error(data.detail || 'Transcription failed');
+                    const errorText = await response.text();
+                    console.error('Server error response:', {
+                        status: response.status,
+                        statusText: response.statusText,
+                        errorText
+                    });
+                    throw new Error(`Server error: ${response.status} ${response.statusText}\n${errorText}`);
                 }
+
+                const data = await response.json();
+                console.log('Transcription data received:', {
+                    hasData: !!data,
+                    dataKeys: data ? Object.keys(data) : null
+                });
 
                 return data;
             } catch (error) {
-                console.error('Error uploading file:', error);
+                console.error('Error during file upload:', {
+                    error: error.message,
+                    stack: error.stack
+                });
                 throw error;
             }
         };
@@ -704,10 +736,10 @@ class MLTranscriber extends HTMLElement {
     }
 }
 
-// Регистрируем веб-компонент
+// Register web component
 customElements.define('ml-transcriber', MLTranscriber);
 
-// Функция для получения цвета спикера
+// Function to get speaker color
 function getSpeakerColor(speaker) {
     const colors = {
         'A': '#2196F3',
