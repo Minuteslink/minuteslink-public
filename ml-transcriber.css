@@ -14,7 +14,7 @@
 }
 
 /* Main container styles */
-.container {
+#ml-transcriber-section .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -22,7 +22,7 @@
 }
 
 /* Upload button styles */
-.upload-button {
+#ml-transcriber-section .upload-button {
     background-color: #4CAF50;
     color: white;
     padding: 12px 24px;
@@ -33,12 +33,12 @@
     transition: background-color 0.3s;
 }
 
-.upload-button:hover {
+#ml-transcriber-section .upload-button:hover {
     background-color: #45a049;
 }
 
 /* Action buttons styles */
-.action-button {
+#ml-transcriber-section .action-button {
     background-color: #2196F3;
     color: white;
     padding: 8px 16px;
@@ -49,12 +49,12 @@
     transition: background-color 0.3s;
 }
 
-.action-button:hover {
+#ml-transcriber-section .action-button:hover {
     background-color: #1976D2;
 }
 
 /* Transcription container styles */
-#minuteslink-transcription-container {
+#ml-transcriber-section #minuteslink-transcription-container {
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #e0e0e0;
@@ -64,7 +64,7 @@
 }
 
 /* Transcript section styles */
-.transcript-section {
+#ml-transcriber-section .transcript-section {
     padding: 15px;
     margin-bottom: 15px;
     background-color: #f8f9fa;
@@ -73,12 +73,12 @@
     transition: all 0.3s ease;
 }
 
-.transcript-section:hover {
+#ml-transcriber-section .transcript-section:hover {
     transform: translateX(5px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.speaker-header {
+#ml-transcriber-section .speaker-header {
     font-weight: bold;
     margin-bottom: 8px;
     display: flex;
@@ -87,32 +87,32 @@
     transition: color 0.3s ease;
 }
 
-.timestamp {
+#ml-transcriber-section .timestamp {
     color: #666;
     font-size: 0.9em;
     font-weight: normal;
 }
 
-.transcript-text {
+#ml-transcriber-section .transcript-text {
     line-height: 1.6;
     margin: 0;
     color: #333;
 }
 
-#minuteslink-upload-container {
+#ml-transcriber-section #minuteslink-upload-container {
     margin-bottom: 20px;
     text-align: center;
 }
 
-#minuteslink-audio-input {
+#ml-transcriber-section #minuteslink-audio-input {
     margin-right: 10px;
 }
 
-#minuteslink-transcription {
+#ml-transcriber-section #minuteslink-transcription {
     white-space: pre-wrap;
 }
 
-#minuteslink-actions {
+#ml-transcriber-section #minuteslink-actions {
     margin-bottom: 20px;
     text-align: center;
     display: flex;
@@ -120,7 +120,7 @@
     gap: 10px;
 }
 
-#minuteslink-actions button {
+#ml-transcriber-section #minuteslink-actions button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -133,16 +133,16 @@
     gap: 5px;
 }
 
-#minuteslink-actions button:hover {
+#ml-transcriber-section #minuteslink-actions button:hover {
     background-color: #0056b3;
 }
 
-.hidden {
+#ml-transcriber-section .hidden {
     display: none;
 }
 
 /* Error message styles */
-.error-message {
+#ml-transcriber-section .error-message {
     padding: 12px;
     border: 1px solid #ff5252;
     border-radius: 4px;
@@ -153,34 +153,34 @@
     gap: 8px;
 }
 
-.error-message i {
+#ml-transcriber-section .error-message i {
     font-size: 20px;
 }
 
 /* Skeleton loading styles */
-.skeleton-loading {
+#ml-transcriber-section .skeleton-loading {
     padding: 20px;
     display: none;
 }
 
-.skeleton-loading:not(.hidden) {
+#ml-transcriber-section .skeleton-loading:not(.hidden) {
     display: block;
 }
 
 /* Skeleton loading styles (adapted for new container) */
-#ml-transcriber-transcription-output .skeleton-loading {
+#ml-transcriber-section #ml-transcriber-transcription-output .skeleton-loading {
     padding: 0;
 }
 
-#ml-transcriber-transcription-output .skeleton-loading:not(.hidden) {
+#ml-transcriber-section #ml-transcriber-transcription-output .skeleton-loading:not(.hidden) {
     display: block;
 }
 
-#ml-transcriber-transcription-output .skeleton-loading.hidden {
+#ml-transcriber-section #ml-transcriber-transcription-output .skeleton-loading.hidden {
     display: none;
 }
 
-.skeleton-line {
+#ml-transcriber-section .skeleton-line {
     height: 20px;
     background: #f0f0f0;
     margin-bottom: 12px;
@@ -189,7 +189,7 @@
     overflow: hidden;
 }
 
-.skeleton-line::after {
+#ml-transcriber-section .skeleton-line::after {
     content: '';
     position: absolute;
     top: 0;
@@ -221,7 +221,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
-#fixed-size-container {
+#ml-transcriber-section #fixed-size-container {
     width: 600px !important;
     height: 500px !important;
     margin: 50px auto !important;
@@ -231,27 +231,27 @@ body {
     padding: 10px !important;
 }
 
-#ml-transcriber-container {
+#ml-transcriber-section #ml-transcriber-container {
     max-width: 48rem !important;
     width: 100% !important;
     text-align: center !important;
     margin: 0 auto !important;
 }
 
-#ml-transcriber-title {
+#ml-transcriber-section #ml-transcriber-title {
     font-size: 2.5rem !important;
     font-weight: 800 !important;
     margin-bottom: 1rem !important;
     color: #19223d !important;
 }
 
-#ml-transcriber-subtitle {
+#ml-transcriber-section #ml-transcriber-subtitle {
     font-size: 1.25rem !important;
     color: #232b41 !important;
     margin-bottom: 2.5rem !important;
 }
 
-#ml-transcriber-upload-box {
+#ml-transcriber-section #ml-transcriber-upload-box {
     width: 100% !important;
     max-width: 42rem !important;
     margin: 0 auto 0.5rem !important;
@@ -266,7 +266,7 @@ body {
     position: relative !important;
 }
 
-#ml-transcriber-dropzone {
+#ml-transcriber-section #ml-transcriber-dropzone {
     width: 100% !important;
     height: 100% !important;
     border: 2px dashed #d2d6e1 !important;
@@ -281,7 +281,7 @@ body {
     box-sizing: border-box !important;
 }
 
-#ml-transcriber-button {
+#ml-transcriber-section #ml-transcriber-button {
     background-color: #2468f2 !important;
     color: white !important;
     border-radius: 0.75rem !important;
@@ -297,52 +297,52 @@ body {
     cursor: pointer !important;
 }
 
-#ml-transcriber-button:hover {
+#ml-transcriber-section #ml-transcriber-button:hover {
     background-color: #245ee2 !important;
 }
 
-#ml-transcriber-button:active {
+#ml-transcriber-section #ml-transcriber-button:active {
     background-color: #1a49a3 !important;
 }
 
-#ml-transcriber-input {
+#ml-transcriber-section #ml-transcriber-input {
     display: none !important;
 }
 
-#ml-transcriber-drag-text {
+#ml-transcriber-section #ml-transcriber-drag-text {
     margin-top: 1rem !important;
     font-size: 1rem !important;
     color: #b4bacb !important;
 }
 
-#ml-transcriber-file-name {
+#ml-transcriber-section #ml-transcriber-file-name {
     margin-top: 0.5rem !important;
     font-size: 0.875rem !important;
     color: #4b5563 !important;
 }
 
-#ml-transcriber-formats {
+#ml-transcriber-section #ml-transcriber-formats {
     margin-top: 1rem !important;
     font-size: 0.875rem !important;
     color: #b4bacb !important;
 }
 
-#ml-transcriber-upgrade {
+#ml-transcriber-section #ml-transcriber-upgrade {
     margin-top: 0.5rem !important;
     font-size: 0.875rem !important;
 }
 
-#ml-transcriber-link {
+#ml-transcriber-section #ml-transcriber-link {
     color: #2468f2 !important;
     font-weight: 600 !important;
     text-decoration: none !important;
 }
 
-#ml-transcriber-link:hover {
+#ml-transcriber-section #ml-transcriber-link:hover {
     text-decoration: underline !important;
 }
 
-#ml-transcriber-logos {
+#ml-transcriber-section #ml-transcriber-logos {
     display: flex !important;
     flex-wrap: wrap !important;
     align-items: center !important;
@@ -352,7 +352,7 @@ body {
     margin-top: 1.5rem !important;
 }
 
-.ml-transcriber-logo {
+#ml-transcriber-section .ml-transcriber-logo {
     text-transform: uppercase !important;
     letter-spacing: 0.05em !important;
     font-size: 1.5rem !important;
@@ -360,13 +360,13 @@ body {
     color: #b4bacb !important;
 }
 
-#ml-transcriber-divider {
+#ml-transcriber-section #ml-transcriber-divider {
     width: 100% !important;
     border-bottom: 1px solid #ededf2 !important;
     margin: 2.5rem 0 !important;
 }
 
-#ml-transcriber-footer {
+#ml-transcriber-section #ml-transcriber-footer {
     width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
@@ -374,7 +374,7 @@ body {
     gap: 1rem !important;
 }
 
-#ml-transcriber-footer-text {
+#ml-transcriber-section #ml-transcriber-footer-text {
     font-size: 1rem !important;
     color: #858ba8 !important;
     text-align: center !important;
@@ -384,52 +384,52 @@ body {
 
 /* Media queries for responsiveness */
 @media (max-width: 375px) {
-    #ml-transcriber-title {
+    #ml-transcriber-section #ml-transcriber-title {
         font-size: 2rem !important;
     }
     
-    #ml-transcriber-subtitle {
+    #ml-transcriber-section #ml-transcriber-subtitle {
         font-size: 1rem !important;
     }
     
-    #ml-transcriber-upload-box {
+    #ml-transcriber-section #ml-transcriber-upload-box {
         padding: 2rem 0.5rem !important;
     }
     
-    #ml-transcriber-dropzone {
+    #ml-transcriber-section #ml-transcriber-dropzone {
         padding: 1.5rem !important;
     }
     
-    #ml-transcriber-button {
+    #ml-transcriber-section #ml-transcriber-button {
         padding: 0.6rem 1.5rem !important;
         font-size: 0.9rem !important;
     }
     
-    #ml-transcriber-drag-text,
-    #ml-transcriber-formats,
-    #ml-transcriber-upgrade,
-    #ml-transcriber-file-name,
-    #ml-transcriber-footer-text {
+    #ml-transcriber-section #ml-transcriber-drag-text,
+    #ml-transcriber-section #ml-transcriber-formats,
+    #ml-transcriber-section #ml-transcriber-upgrade,
+    #ml-transcriber-section #ml-transcriber-file-name,
+    #ml-transcriber-section #ml-transcriber-footer-text {
         font-size: 0.8rem !important;
     }
     
-    .ml-transcriber-logo {
+    #ml-transcriber-section .ml-transcriber-logo {
         font-size: 1.2rem !important;
     }
 }
 
 @media (min-width: 768px) {
-    #ml-transcriber-title {
+    #ml-transcriber-section #ml-transcriber-title {
         font-size: 3rem !important;
     }
     
-    #ml-transcriber-subtitle {
+    #ml-transcriber-section #ml-transcriber-subtitle {
         font-size: 1.5rem !important;
     }
 }
 
 /* Styles for the header within the transcription output */
-#ml-transcriber-output-header {
+#ml-transcriber-section #ml-transcriber-output-header {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -442,18 +442,18 @@ body {
     z-index: 11 !important;
 }
 
-#ml-transcriber-output-title {
+#ml-transcriber-section #ml-transcriber-output-title {
     font-size: 1.25rem !important;
     font-weight: 600 !important;
     color: #19223d !important;
 }
 
-#ml-transcriber-output-actions {
+#ml-transcriber-section #ml-transcriber-output-actions {
     display: flex !important;
     gap: 0.5rem !important;
 }
 
-.ml-action-button {
+#ml-transcriber-section .ml-action-button {
     background-color: #e0e6f6 !important;
     color: #2468f2 !important;
     border-radius: 0.5rem !important;
@@ -468,18 +468,18 @@ body {
     cursor: pointer !important;
 }
 
-.ml-action-button:hover {
+#ml-transcriber-section .ml-action-button:hover {
     background-color: #d2d6e1 !important;
     color: #1a49a3 !important;
 }
 
-.ml-action-button:disabled {
+#ml-transcriber-section .ml-action-button:disabled {
     opacity: 0.6 !important;
     cursor: not-allowed !important;
 }
 
 /* Styles for individual transcript sections (each utterance) */
-.ml-transcript-section {
+#ml-transcriber-section .ml-transcript-section {
     padding: 1rem !important;
     margin-bottom: 1rem !important;
     background-color: #f8f9fa !important;
@@ -490,17 +490,17 @@ body {
     box-sizing: border-box !important;
 }
 
-.ml-transcript-section:last-child {
+#ml-transcriber-section .ml-transcript-section:last-child {
     margin-bottom: 0 !important;
 }
 
-.ml-transcript-section:hover {
+#ml-transcriber-section .ml-transcript-section:hover {
     transform: translateX(5px) !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 }
 
 /* Speaker header styles */
-.ml-speaker-header {
+#ml-transcriber-section .ml-speaker-header {
     font-weight: bold !important;
     margin-bottom: 0.5rem !important;
     display: flex !important;
@@ -511,14 +511,14 @@ body {
 }
 
 /* Timestamp styles */
-.ml-timestamp {
+#ml-transcriber-section .ml-timestamp {
     color: #666 !important;
     font-size: 0.85em !important;
     font-weight: normal !important;
 }
 
 /* Transcript text styles */
-.ml-transcript-text {
+#ml-transcriber-section .ml-transcript-text {
     line-height: 1.6 !important;
     margin: 0 !important;
     color: #333 !important;
@@ -526,7 +526,7 @@ body {
 }
 
 /* Error message styles (adapted for new container) */
-.ml-error-message {
+#ml-transcriber-section .ml-error-message {
     padding: 1rem !important;
     border: 1px solid #ff5252 !important;
     border-radius: 4px !important;
@@ -538,12 +538,12 @@ body {
     font-size: 0.9rem !important;
 }
 
-.ml-error-message i {
+#ml-transcriber-section .ml-error-message i {
     font-size: 1.25rem !important;
 }
 
 /* Styles for the scrollable transcription content */
-#ml-transcriber-scrollable-content {
+#ml-transcriber-section #ml-transcriber-scrollable-content {
     height: calc(100% - 3.5rem) !important; /* Высота контейнера за вычетом высоты хедера */
     overflow-y: auto !important;
     padding-top: 0.5rem !important; /* Небольшой отступ сверху для текста */
