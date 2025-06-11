@@ -3,90 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Audio to Text Converter</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://minuteslink.github.io/minuteslink-public/ml-transcriber.css?v=1.0.11" />
 </head>
 <body>
-    <div id="fixed-size-container">
-        <section id="ml-transcriber-section">
-            <div id="ml-transcriber-container">
-                
-                <div id="ml-transcriber-upload-box">
-                    <div id="ml-transcriber-dropzone">
-                        <label id="ml-transcriber-label">
-                            <button id="ml-transcriber-button">
-                                <svg id="ml-transcriber-icon" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="22" height="22" rx="4" fill="#ffffff00"/>
-                                    <path d="M12 4v8h3l-4 4-4-4h3V4h2Zm-8 14v-2h16v2H4Z" fill="#fff"/>
-                                </svg>
-                                Choose files
-                            </button>
-                            <input id="ml-transcriber-input" type="file" class="hidden">
-                        </label>
-                        <div id="ml-transcriber-drag-text">or drag and drop your file here</div>
-                        <div id="ml-transcriber-file-name"></div>
-                        <div id="ml-transcriber-formats">
-                            Supported Formats: WAV, MP3, M4A, CAF, AIFF, AAC, OGG, WMA, AMR, APE, FLAC, ALAC, DS2, DSS, MP2, MKA, AU, RA, GSM, VOX, RAW, AVI, RMVB, FLV, MP4, MOV, WMV, MKV, 3GP, MPEG, MPG, TS, MTS, M2TS, WEBM, ASF, VOB, M1V, M2V, F4V;<br/>
-                            Max size: 1GB; Max duration: 5 hours.
-                        </div>
-                        <div id="ml-transcriber-upgrade">
-                            Need more transcription quota? <a href="https://minuteslink.com" target="_blank" rel="noopener noreferrer" id="ml-transcriber-link">
-                                Try&nbsp;MinutesLink&nbsp;→
-                            </a>
-                        </div>
-                    </div>
-                    <div id="ml-transcriber-transcription-output" style="display: none;">
-                        <div id="ml-transcriber-output-header">
-                            <span id="ml-transcriber-output-title">Your Transcription</span>
-                            <div id="ml-transcriber-output-actions">
-                                <button id="ml-transcriber-copy-button" class="ml-action-button">
-                                    <svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 1H4c-1.1 0-2 .9-2 2v14h2V3h11V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                                    Copy
-                                </button>
-                                <button id="ml-transcriber-pdf-button" class="ml-action-button">
-                                    <svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm4-6h4v2h-4v-2zm0-4h4v2h-4V10zm0 8h4v2h-4v-2z"/></svg>
-                                    PDF
-                                </button>
-                            </div>
-                        </div>
-                        <div class="skeleton-loading">
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line"></div>
-                        </div>
-                        <div id="ml-transcriber-transcription-content">
-                            <!-- Transcription content will be appended here -->
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
+    <div id="fixed-size-container" style="width: 80vw; height: 50vh; margin: 0 auto;">
+        <ml-transcriber></ml-transcriber>
     </div>
     <!-- JavaScript -->
-    <script src="https://minuteslink.github.io/minuteslink-public/ml-transcriber.js?v=1.0.1"></script>
+    <script src="ml-transcriber.js"></script>
 </body>
 </html> 
