@@ -1,0 +1,640 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Main container styles */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Upload button styles */
+.upload-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #45a049;
+}
+
+/* Action buttons styles */
+.action-button {
+    background-color: #2196F3;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 8px;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #1976D2;
+}
+
+/* Transcription container styles */
+#minuteslink-transcription-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Transcript section styles */
+.transcript-section {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+    border-left: 4px solid;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.transcript-section:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.speaker-header {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.timestamp {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.transcript-text {
+    line-height: 1.6;
+    margin: 0;
+    color: #333;
+}
+
+#minuteslink-upload-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#minuteslink-audio-input {
+    margin-right: 10px;
+}
+
+#minuteslink-transcription {
+    white-space: pre-wrap;
+}
+
+#minuteslink-actions {
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#minuteslink-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#minuteslink-actions button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Error message styles */
+.error-message {
+    padding: 12px;
+    border: 1px solid #ff5252;
+    border-radius: 4px;
+    background-color: #ffebee;
+    color: #d32f2f;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.error-message i {
+    font-size: 20px;
+}
+
+/* Skeleton loading styles */
+.skeleton-loading {
+    padding: 20px;
+    display: none;
+}
+
+.skeleton-loading:not(.hidden) {
+    display: block;
+}
+
+/* Skeleton loading styles (adapted for new container) */
+#ml-transcriber-transcription-output .skeleton-loading {
+    padding: 0;
+}
+
+#ml-transcriber-transcription-output .skeleton-loading:not(.hidden) {
+    display: block;
+}
+
+#ml-transcriber-transcription-output .skeleton-loading.hidden {
+    display: none;
+}
+
+.skeleton-line {
+    height: 20px;
+    background: #f0f0f0;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+html,
+body {
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+#fixed-size-container {
+    width: 600px !important;
+    height: 500px !important;
+    margin: 50px auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10px !important;
+}
+
+#ml-transcriber-section {
+    all: initial;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    color: #19223d !important;
+    box-sizing: border-box !important;
+}
+
+#ml-transcriber-section * {
+    all: revert;
+}
+
+#ml-transcriber-container {
+    max-width: 48rem !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
+#ml-transcriber-title {
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 1rem !important;
+    color: #19223d !important;
+}
+
+#ml-transcriber-subtitle {
+    font-size: 1.25rem !important;
+    color: #232b41 !important;
+    margin-bottom: 2.5rem !important;
+}
+
+#ml-transcriber-upload-box {
+    width: 100% !important;
+    max-width: 42rem !important;
+    margin: 0 auto 0.5rem !important;
+    border-radius: 1.5rem !important;
+    background-color: white !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid #ededf2 !important;
+    padding: 1.5rem 1rem !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    max-height: 400px !important;
+    position: relative !important;
+}
+
+#ml-transcriber-dropzone {
+    width: 100% !important;
+    height: 100% !important;
+    border: 2px dashed #d2d6e1 !important;
+    border-radius: 1rem !important;
+    padding: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 140px !important;
+    background-color: #fafbfc !important;
+    box-sizing: border-box !important;
+}
+
+#ml-transcriber-button {
+    background-color: #2468f2 !important;
+    color: white !important;
+    border-radius: 0.75rem !important;
+    padding: 0.75rem 2rem !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+    transition: background-color 0.2s !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+#ml-transcriber-button:hover {
+    background-color: #245ee2 !important;
+}
+
+#ml-transcriber-button:active {
+    background-color: #1a49a3 !important;
+}
+
+#ml-transcriber-input {
+    display: none !important;
+}
+
+#ml-transcriber-drag-text {
+    margin-top: 1rem !important;
+    font-size: 1rem !important;
+    color: #b4bacb !important;
+}
+
+#ml-transcriber-file-name {
+    margin-top: 0.5rem !important;
+    font-size: 0.875rem !important;
+    color: #4b5563 !important;
+}
+
+#ml-transcriber-formats {
+    margin-top: 1rem !important;
+    font-size: 0.875rem !important;
+    color: #b4bacb !important;
+}
+
+#ml-transcriber-upgrade {
+    margin-top: 0.5rem !important;
+    font-size: 0.875rem !important;
+}
+
+#ml-transcriber-link {
+    color: #2468f2 !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+#ml-transcriber-link:hover {
+    text-decoration: underline !important;
+}
+
+#ml-transcriber-logos {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2rem !important;
+    opacity: 0.6 !important;
+    margin-top: 1.5rem !important;
+}
+
+.ml-transcriber-logo {
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    color: #b4bacb !important;
+}
+
+#ml-transcriber-divider {
+    width: 100% !important;
+    border-bottom: 1px solid #ededf2 !important;
+    margin: 2.5rem 0 !important;
+}
+
+#ml-transcriber-footer {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1rem !important;
+}
+
+#ml-transcriber-footer-text {
+    font-size: 1rem !important;
+    color: #858ba8 !important;
+    text-align: center !important;
+    max-width: 36rem !important;
+    margin: 0 auto !important;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 375px) {
+    #ml-transcriber-title {
+        font-size: 2rem !important; /* Уменьшаем размер заголовка для очень маленьких экранов */
+    }
+    
+    #ml-transcriber-subtitle {
+        font-size: 1rem !important; /* Уменьшаем размер подзаголовка */
+    }
+    
+    #ml-transcriber-upload-box {
+        padding: 2rem 0.5rem !important; /* Уменьшаем отступы внутри блока загрузки */
+    }
+    
+    #ml-transcriber-dropzone {
+        padding: 1.5rem !important; /* Уменьшаем отступы в дропзоне */
+    }
+    
+    #ml-transcriber-button {
+        padding: 0.6rem 1.5rem !important; /* Уменьшаем отступы кнопки */
+        font-size: 0.9rem !important;
+    }
+    
+    #ml-transcriber-drag-text,
+    #ml-transcriber-formats,
+    #ml-transcriber-upgrade,
+    #ml-transcriber-file-name,
+    #ml-transcriber-footer-text {
+        font-size: 0.8rem !important; /* Уменьшаем размер основного текста и информации */
+    }
+    
+    .ml-transcriber-logo {
+        font-size: 1.2rem !important; /* Уменьшаем размер логотипов */
+    }
+}
+
+@media (min-width: 768px) {
+    #ml-transcriber-title {
+        font-size: 3rem !important;
+    }
+    
+    #ml-transcriber-subtitle {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Styles for the header within the transcription output */
+#ml-transcriber-output-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 1rem !important;
+    padding: 1.5rem 0 0.5rem 0 !important; /* Возвращаем верхний padding */
+    border-bottom: 1px solid #ededf2 !important;
+    background-color: white !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 11 !important;
+}
+
+#ml-transcriber-output-title {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: #19223d !important;
+}
+
+#ml-transcriber-output-actions {
+    display: flex !important;
+    gap: 0.5rem !important;
+}
+
+.ml-action-button {
+    background-color: #e0e6f6 !important;
+    color: #2468f2 !important;
+    border-radius: 0.5rem !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    transition: background-color 0.2s, color 0.2s !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.ml-action-button:hover {
+    background-color: #d2d6e1 !important;
+    color: #1a49a3 !important;
+}
+
+.ml-action-button:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+/* Styles for individual transcript sections (each utterance) */
+.ml-transcript-section {
+    padding: 1rem !important;
+    margin-bottom: 1rem !important;
+    background-color: #f8f9fa !important;
+    border-left-width: 4px !important;
+    border-left-style: solid !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+.ml-transcript-section:last-child {
+    margin-bottom: 0 !important;
+}
+
+.ml-transcript-section:hover {
+    transform: translateX(5px) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+/* Speaker header styles */
+.ml-speaker-header {
+    font-weight: bold !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    transition: color 0.3s ease !important;
+    font-size: 0.95rem !important;
+}
+
+/* Timestamp styles */
+.ml-timestamp {
+    color: #666 !important;
+    font-size: 0.85em !important;
+    font-weight: normal !important;
+}
+
+/* Transcript text styles */
+.ml-transcript-text {
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    color: #333 !important;
+    font-size: 0.9rem !important;
+}
+
+/* Error message styles (adapted for new container) */
+.ml-error-message {
+    padding: 1rem !important;
+    border: 1px solid #ff5252 !important;
+    border-radius: 4px !important;
+    background-color: #ffebee !important;
+    color: #d32f2f !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.9rem !important;
+}
+
+.ml-error-message i {
+    font-size: 1.25rem !important;
+}
+
+/* Styles for the scrollable transcription content */
+#ml-transcriber-scrollable-content {
+    height: calc(100% - 3.5rem) !important; /* Высота контейнера за вычетом высоты хедера */
+    overflow-y: auto !important;
+    padding-top: 0.5rem !important; /* Небольшой отступ сверху для текста */
+    box-sizing: border-box !important;
+}
+
+/* Styles for the transcription output area */
+#ml-transcriber-transcription-output {
+    margin-top: 0;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border: none;
+    border-radius: 1.5rem;
+    background-color: white;
+    box-shadow: none;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    max-height: 500px;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: none;
+}
+
+/* Disable scroll when skeleton is visible */
+#ml-transcriber-transcription-output:has(.skeleton-loading[style*="display: block"]) {
+    overflow-y: hidden !important;
+}
+
+/* Additional padding for transcription content to avoid overlap with sticky header */
+#ml-transcriber-transcription-output .ml-transcript-section:first-child {
+    padding-top: 1rem !important; /* Добавляем отступ для первого элемента транскрипции */
+}
+
+/* Transcription content display styles */
+#ml-transcriber-transcription-content {
+    display: none;
+    padding: 20px;
+}
+
+#ml-transcriber-transcription-output .skeleton-loading.hidden {
+    display: none;
+}
+
+.ml-error-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+    padding: 2rem !important;
+    text-align: center !important;
+}
+
+.ml-error-message {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    color: #dc2626 !important;
+    font-size: 1.125rem !important;
+    font-weight: 500 !important;
+}
+
+.ml-error-message i {
+    font-size: 1.5rem !important;
+}
+
+.ml-try-again-button {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding: 0.75rem 1.5rem !important;
+    background-color: #2468f2 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 0.5rem !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s !important;
+}
+
+.ml-try-again-button:hover {
+    background-color: #1d4ed8 !important;
+} 
