@@ -75,6 +75,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (copyButton) copyButton.disabled = true;
         if (pdfButton) pdfButton.disabled = true;
 
+        // Скрываем весь контент загрузки
+        const uploadContent = document.querySelector('#ml-transcriber-upload-box > *:not(#ml-transcriber-transcription-output)');
+        if (uploadContent) {
+            uploadContent.style.display = 'none';
+        }
+
         if (transcriptionOutput) {
             transcriptionOutput.style.display = 'block';
             // Clear content of transcription output area, but keep the header and skeleton
@@ -205,10 +211,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 skeletonLoading.classList.add('hidden');
             }
 
-            // Скрываем область загрузки
-            const uploadBox = document.getElementById('ml-transcriber-upload-box');
-            if (uploadBox) {
-                uploadBox.style.display = 'none';
+            // Скрываем весь контент загрузки
+            const uploadContent = document.querySelector('#ml-transcriber-upload-box > *:not(#ml-transcriber-transcription-output)');
+            if (uploadContent) {
+                uploadContent.style.display = 'none';
             }
 
             // Показываем контейнер для ошибки
@@ -256,9 +262,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reset buttons
                 if (copyButton) copyButton.disabled = true;
                 if (pdfButton) pdfButton.disabled = true;
-                // Show upload box again
-                if (uploadBox) {
-                    uploadBox.style.display = 'block';
+                // Show upload content again
+                if (uploadContent) {
+                    uploadContent.style.display = '';
                 }
                 // Hide transcription output area
                 if (transcriptionOutput) {
