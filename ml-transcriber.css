@@ -238,7 +238,7 @@ body {
 
 #ml-transcriber-section svg,
 #ml-transcriber-section svg * {
-    all: unset;
+    display: inline-block;
     fill: currentColor;
 }
 
