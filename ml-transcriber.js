@@ -566,7 +566,13 @@ class MLTranscriber extends HTMLElement {
 
                 const response = await fetch('https://widget-transcriber-backend-production.up.railway.app/transcribe', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Origin': 'https://minuteslink.github.io'
+                    },
+                    mode: 'cors',
+                    credentials: 'include'
                 });
 
                 console.log('Server response received:', {
