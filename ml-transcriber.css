@@ -232,8 +232,14 @@ body {
     box-sizing: border-box !important;
 }
 
-#ml-transcriber-section * {
+#ml-transcriber-section *:not(svg):not(svg *) {
     all: revert;
+}
+
+#ml-transcriber-section svg,
+#ml-transcriber-section svg * {
+    all: unset;
+    fill: currentColor;
 }
 
 #ml-transcriber-container {
