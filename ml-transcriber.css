@@ -231,7 +231,7 @@
     justify-content: flex-start !important;
     align-items: center !important;
     position: relative !important;
-    min-height: 100%;
+    flex: 1;
 }
 
 #ml-transcriber-section #ml-transcriber-title {
@@ -257,7 +257,10 @@
     padding: 1.5rem 1rem !important;
     box-sizing: border-box !important;
     position: relative !important;
-    min-height: 200px;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
 }
 
 #ml-transcriber-section #ml-transcriber-dropzone {
@@ -557,10 +560,11 @@
     box-shadow: none;
     text-align: left;
     width: 100%;
-    min-height: 200px;
     box-sizing: border-box;
     overflow-y: auto;
     display: none;
+    flex: 1;
+    min-height: 0; /* Important for flex items with overflow */
 }
 
 #ml-transcriber-section #ml-transcriber-transcription-output:not([style*="display: none"]) {
@@ -631,18 +635,13 @@
 
 /* Add styles for Webflow container */
 .w-embed {
-    width: 100% !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    display: block !important;
-    position: relative !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Ensure proper centering in Webflow */
 .w-embed > div {
-    width: 100% !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    display: block !important;
-    position: relative !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 } 
