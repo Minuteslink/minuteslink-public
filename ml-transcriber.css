@@ -2,7 +2,7 @@
 
 /* Изолированные стили для виджета */
 #ml-transcriber-section {
-    height: 100%;
+    min-height: 100%;
     width: 100%;
     margin: 0;
     padding: 30px 0;
@@ -168,6 +168,7 @@
 #ml-transcriber-section .skeleton-loading {
     padding: 20px;
     display: none;
+    width: 100%;
 }
 
 #ml-transcriber-section .skeleton-loading:not(.hidden) {
@@ -177,6 +178,7 @@
 /* Skeleton loading styles (adapted for new container) */
 #ml-transcriber-section #ml-transcriber-transcription-output .skeleton-loading {
     padding: 0;
+    display: none;
 }
 
 #ml-transcriber-section #ml-transcriber-transcription-output .skeleton-loading:not(.hidden) {
@@ -226,9 +228,10 @@
     padding: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     align-items: center !important;
     position: relative !important;
+    min-height: 100%;
 }
 
 #ml-transcriber-section #ml-transcriber-title {
@@ -254,6 +257,7 @@
     padding: 1.5rem 1rem !important;
     box-sizing: border-box !important;
     position: relative !important;
+    min-height: 200px;
 }
 
 #ml-transcriber-section #ml-transcriber-dropzone {
@@ -553,11 +557,14 @@
     box-shadow: none;
     text-align: left;
     width: 100%;
-    height: 100%;
-    max-width: none;
+    min-height: 200px;
     box-sizing: border-box;
     overflow-y: auto;
     display: none;
+}
+
+#ml-transcriber-section #ml-transcriber-transcription-output:not([style*="display: none"]) {
+    display: block;
 }
 
 /* Disable scroll when skeleton is visible */
