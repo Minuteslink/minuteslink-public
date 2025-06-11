@@ -3,14 +3,17 @@
 /* Изолированные стили для виджета */
 #ml-transcriber-section {
     height: 100%;
+    width: 100%;
     margin: 0;
-    padding: 30px 0; /* Increased vertical padding for shadow */
+    padding: 30px 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow: visible;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    box-sizing: border-box;
 }
 
 #ml-transcriber-section * {
@@ -19,6 +22,7 @@
 
 /* Main container styles */
 #ml-transcriber-section .container {
+    width: 100%;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -216,14 +220,17 @@
     }
 }
 
+/* Update container styles for Webflow */
 #ml-transcriber-section #ml-transcriber-container {
-    max-width: 48rem !important;
     width: 100% !important;
-    height: 100% !important; /* Take 100% of the content area of #ml-transcriber-section after padding */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    max-width: 48rem !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
 }
 
 #ml-transcriber-section #ml-transcriber-title {
@@ -242,9 +249,6 @@
 #ml-transcriber-section #ml-transcriber-upload-box {
     width: 100% !important;
     max-width: 42rem !important;
-    height: 100% !important; /* Take 100% of #ml-transcriber-container */
-    display: flex;
-    flex-direction: column;
     margin: 0 auto !important;
     border-radius: 1.5rem !important;
     background-color: white !important;
@@ -252,7 +256,6 @@
     border: 1px solid #ededf2 !important;
     padding: 1.5rem 1rem !important;
     box-sizing: border-box !important;
-    overflow-y: auto !important; /* Added for internal scrolling */
     position: relative !important;
 }
 
@@ -617,4 +620,24 @@
 
 .ml-try-again-button:hover {
     background-color: #1d4ed8 !important;
+}
+
+/* Add styles for Webflow container */
+.w-embed {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: block !important;
+    position: relative !important;
+}
+
+/* Ensure proper centering in Webflow */
+.w-embed > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: block !important;
+    position: relative !important;
 } 
