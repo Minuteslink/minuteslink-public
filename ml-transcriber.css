@@ -396,23 +396,23 @@ body {
 /* Media queries for responsiveness */
 @media (max-width: 375px) {
     #ml-transcriber-title {
-        font-size: 2rem !important; /* Уменьшаем размер заголовка для очень маленьких экранов */
+        font-size: 2rem !important;
     }
     
     #ml-transcriber-subtitle {
-        font-size: 1rem !important; /* Уменьшаем размер подзаголовка */
+        font-size: 1rem !important;
     }
     
     #ml-transcriber-upload-box {
-        padding: 2rem 0.5rem !important; /* Уменьшаем отступы внутри блока загрузки */
+        padding: 2rem 0.5rem !important;
     }
     
     #ml-transcriber-dropzone {
-        padding: 1.5rem !important; /* Уменьшаем отступы в дропзоне */
+        padding: 1.5rem !important;
     }
     
     #ml-transcriber-button {
-        padding: 0.6rem 1.5rem !important; /* Уменьшаем отступы кнопки */
+        padding: 0.6rem 1.5rem !important;
         font-size: 0.9rem !important;
     }
     
@@ -421,11 +421,11 @@ body {
     #ml-transcriber-upgrade,
     #ml-transcriber-file-name,
     #ml-transcriber-footer-text {
-        font-size: 0.8rem !important; /* Уменьшаем размер основного текста и информации */
+        font-size: 0.8rem !important;
     }
     
     .ml-transcriber-logo {
-        font-size: 1.2rem !important; /* Уменьшаем размер логотипов */
+        font-size: 1.2rem !important;
     }
 }
 
