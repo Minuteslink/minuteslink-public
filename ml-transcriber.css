@@ -251,7 +251,6 @@
     border: 1px solid #ededf2 !important;
     padding: 1.5rem 1rem !important;
     box-sizing: border-box !important;
-    overflow-y: auto !important;
     position: relative !important;
 }
 
@@ -533,14 +532,14 @@
 
 /* Styles for the scrollable transcription content */
 #ml-transcriber-section #ml-transcriber-scrollable-content {
-    height: calc(100% - 3.5rem) !important; /* Высота контейнера за вычетом высоты хедера */
+    height: calc(100% - 3.5rem) !important;
     overflow-y: auto !important;
-    padding-top: 0.5rem !important; /* Небольшой отступ сверху для текста */
+    padding-top: 0.5rem !important;
     box-sizing: border-box !important;
 }
 
 /* Styles for the transcription output area */
-#ml-transcriber-transcription-output {
+#ml-transcriber-section #ml-transcriber-transcription-output {
     margin-top: 0;
     padding: 0 1.5rem 1.5rem 1.5rem;
     border: none;
@@ -553,10 +552,6 @@
     max-width: none;
     box-sizing: border-box;
     overflow-y: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
     display: none;
 }
 
