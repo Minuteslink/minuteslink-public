@@ -78,17 +78,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (transcriptionOutput) {
             transcriptionOutput.style.display = 'block';
             // Clear content of transcription output area, but keep the header and skeleton
-
-            // Ensure existing transcription content is cleared before showing skeleton
             const existingDynamicContent = transcriptionOutput.querySelectorAll('.ml-transcript-section, p.no-transcription-message, .ml-error-message');
             existingDynamicContent.forEach(node => node.remove());
 
             if (skeletonLoading) {
-                skeletonLoading.style.display = 'block'; // Показываем скелетон
+                skeletonLoading.style.display = 'block';
                 skeletonLoading.classList.remove('hidden');
             }
             if (transcriptionContent) {
-                transcriptionContent.style.display = 'none'; // Скрываем контент транскрипции
+                transcriptionContent.style.display = 'none';
             }
         }
 
@@ -100,13 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showErrorInOutput('File size exceeds 1GB limit');
             mlTranscriberButton.disabled = false;
             mlTranscriberButton.innerHTML = originalButtonHtml;
-            if (skeletonLoading) {
-                skeletonLoading.style.display = 'none';
-                skeletonLoading.classList.add('hidden');
-            }
-            if (transcriptionContent) {
-                transcriptionContent.style.display = 'block'; // Show content div for error
-            }
             return;
         }
 
@@ -131,23 +122,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (pdfButton) pdfButton.disabled = false;
             } else {
                 showErrorInOutput(`Transcription failed or empty.`);
-                if (skeletonLoading) {
-                    skeletonLoading.style.display = 'none';
-                    skeletonLoading.classList.add('hidden');
-                }
-                if (transcriptionContent) {
-                    transcriptionContent.style.display = 'block'; // Show content div for error
-                }
             }
         } catch (error) {
             showErrorInOutput(error.message);
-            if (skeletonLoading) {
-                skeletonLoading.style.display = 'none';
-                skeletonLoading.classList.add('hidden');
-            }
-            if (transcriptionContent) {
-                transcriptionContent.style.display = 'block'; // Show content div for error
-            }
         } finally {
             mlTranscriberButton.disabled = false;
             mlTranscriberButton.innerHTML = originalButtonHtml;
@@ -222,13 +199,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to display errors within the transcription output container
     function showErrorInOutput(message) {
         if (transcriptionContent) {
-            // Сначала скрываем скелетон
+            // Скрываем скелетон
             if (skeletonLoading) {
                 skeletonLoading.style.display = 'none';
                 skeletonLoading.classList.add('hidden');
             }
 
-            // Затем очищаем существующий контент
+            // Скрываем область загрузки
+            const uploadBox = document.getElementById('ml-transcriber-upload-box');
+            if (uploadBox) {
+                uploadBox.style.display = 'none';
+            }
+
+            // Показываем контейнер для ошибки
+            if (transcriptionOutput) {
+                transcriptionOutput.style.display = 'block';
+            }
+
+            // Очищаем существующий контент
             const existingContent = transcriptionContent.querySelectorAll('.ml-transcript-section, p.no-transcription-message, .ml-error-message');
             existingContent.forEach(node => node.remove());
 
@@ -241,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
             errorContainer.innerHTML = `
                 <div class="ml-error-message">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span>Sorry, something went wrong</span>
+                    <span>${message}</span>
                 </div>
                 <button class="ml-try-again-button">
                     <svg width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -268,16 +256,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reset buttons
                 if (copyButton) copyButton.disabled = true;
                 if (pdfButton) pdfButton.disabled = true;
-                // Clear error message
-                errorContainer.remove();
+                // Show upload box again
+                if (uploadBox) {
+                    uploadBox.style.display = 'block';
+                }
                 // Hide transcription output area
                 if (transcriptionOutput) {
                     transcriptionOutput.style.display = 'none';
                 }
                 // Reset skeleton loading
                 if (skeletonLoading) {
-                    skeletonLoading.style.display = 'block';
-                    skeletonLoading.classList.remove('hidden');
+                    skeletonLoading.style.display = 'none';
+                    skeletonLoading.classList.add('hidden');
                 }
                 // Reset transcription content
                 if (transcriptionContent) {
