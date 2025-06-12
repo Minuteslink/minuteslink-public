@@ -747,6 +747,51 @@ class MLTranscriber extends HTMLElement {
                 });
             });
         }
+
+        if (pdfButton) {
+            pdfButton.addEventListener('click', async function() {
+                if (!currentTranscriptLines) return;
+
+                const originalHtml = pdfButton.innerHTML;
+                pdfButton.disabled = true;
+                pdfButton.innerHTML = '<svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm4-6h4v2h-4v-2zm0-4h4v2h-4V10zm0 8h4v2h-4v-2z"/></svg> Generating...';
+
+                try {
+                    const response = await fetch('https://widget-transcriber-backend-production.up.railway.app/generate-pdf', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            transcript_lines: currentTranscriptLines
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to generate PDF');
+                    }
+
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                    window.URL.revokeObjectURL(url);
+
+                    pdfButton.innerHTML = '<svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm4-6h4v2h-4v-2zm0-4h4v2h-4V10zm0 8h4v2h-4v-2z"/></svg> Opened!';
+                    setTimeout(() => {
+                        pdfButton.innerHTML = originalHtml;
+                        pdfButton.disabled = false;
+                    }, 2000);
+
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    pdfButton.innerHTML = '<svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Error';
+                    setTimeout(() => {
+                        pdfButton.innerHTML = originalHtml;
+                        pdfButton.disabled = false;
+                    }, 2000);
+                }
+            });
+        }
     }
 }
 
