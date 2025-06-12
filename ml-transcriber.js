@@ -580,34 +580,48 @@ class MLTranscriber extends HTMLElement {
                     formDataKeys: Array.from(formData.keys())
                 });
 
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    body: formData
-                });
+                // Создаем контроллер для отмены запроса
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3600000); // 60 минут таймаут
 
-                console.log('Server response received:', {
-                    status: response.status,
-                    statusText: response.statusText,
-                    headers: Object.fromEntries(response.headers.entries())
-                });
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        body: formData,
+                        signal: controller.signal
+                    });
 
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('Server error response:', {
+                    clearTimeout(timeoutId); // Очищаем таймаут при успешном ответе
+
+                    console.log('Server response received:', {
                         status: response.status,
                         statusText: response.statusText,
-                        errorText
+                        headers: Object.fromEntries(response.headers.entries())
                     });
-                    throw new Error(`Server error: ${response.status} ${response.statusText}\n${errorText}`);
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('Server error response:', {
+                            status: response.status,
+                            statusText: response.statusText,
+                            errorText
+                        });
+                        throw new Error(`Server error: ${response.status} ${response.statusText}\n${errorText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Transcription data received:', {
+                        hasData: !!data,
+                        dataKeys: data ? Object.keys(data) : null
+                    });
+
+                    return data;
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        throw new Error('Request timeout: The transcription is taking longer than expected (60 minutes). Please try again with a shorter audio file.');
+                    }
+                    throw error;
                 }
-
-                const data = await response.json();
-                console.log('Transcription data received:', {
-                    hasData: !!data,
-                    dataKeys: data ? Object.keys(data) : null
-                });
-
-                return data;
             } catch (error) {
                 console.error('Error during file upload:', {
                     error: error.message,
@@ -761,9 +775,14 @@ class MLTranscriber extends HTMLElement {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Accept': 'application/pdf'
                         },
                         body: JSON.stringify({
-                            transcript_lines: currentTranscriptLines
+                            transcript_lines: currentTranscriptLines.map(line => ({
+                                speaker: line.speaker,
+                                timestamp: line.timestamp,
+                                text: line.text
+                            }))
                         })
                     });
 
@@ -773,10 +792,15 @@ class MLTranscriber extends HTMLElement {
 
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
-                    window.open(url, '_blank');
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'transcript.pdf';
+                    document.body.appendChild(a);
+                    a.click();
                     window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
 
-                    pdfButton.innerHTML = '<svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm4-6h4v2h-4v-2zm0-4h4v2h-4V10zm0 8h4v2h-4v-2z"/></svg> Opened!';
+                    pdfButton.innerHTML = '<svg width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm4-6h4v2h-4v-2zm0-4h4v2h-4V10zm0 8h4v2h-4v-2z"/></svg> Downloaded!';
                     setTimeout(() => {
                         pdfButton.innerHTML = originalHtml;
                         pdfButton.disabled = false;
