@@ -558,21 +558,17 @@ class MLTranscriber extends HTMLElement {
                 formData.append('file', file);
                 formData.append('language', 'ru');
 
+                const API_URL = 'https://widget-transcriber-backend-production.up.railway.app/transcribe';
+                
                 console.log('Sending request to server...', {
-                    url: 'https://widget-transcriber-backend-production.up.railway.app/transcribe',
+                    url: API_URL,
                     method: 'POST',
                     formDataKeys: Array.from(formData.keys())
                 });
 
-                const response = await fetch('https://widget-transcriber-backend-production.up.railway.app/transcribe', {
+                const response = await fetch(API_URL, {
                     method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Origin': 'https://minuteslink.github.io'
-                    },
-                    mode: 'cors',
-                    credentials: 'include'
+                    body: formData
                 });
 
                 console.log('Server response received:', {
