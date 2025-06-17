@@ -1,51 +1,75 @@
 console.log('Virtual backgrounds script loaded');
 
-// Единый справочник подсказок по стилям (чтобы не дублировать)
+// Style prompts dictionary (to avoid duplication)
+// Each style contains specific visual instructions for AI image generation
+// All prompts ensure the center area remains clear for webcam overlay
 const STYLE_PROMPTS = {
-  'business-professional': 'Clean corporate, neutral blues, studio soft light, DSLR DOF',
-  'funny-cartoon': 'Pixar-style 3D cartoon, bold pastels, rim light',
-  'neon-cyberpunk': 'Neon glow, magenta-cyan, reflective, wide-angle',
-  'futuristic-minimal': 'Ultra-minimal white curves, soft blue ambient, glossy',
-  'vintage-retro': 'Warm film tones, gentle grain, 35 mm look, light leaks',
-  'abstract-gradient': 'Smooth pastel gradients, subtle noise, crisp vectors',
-  'photorealistic': 'Hyper-real HDR, cinematic lights, shallow DOF',
-  'watercolor-wash': 'Soft watercolor wash, paper grain, pastel hues scan',
-  '3d-clay-render': 'Matte clay render, soft overhead light, ambient occlusion',
-  'minimalist-line-art': 'Clean mono line art, sweeping lines, large negative space'
+  "modern-home-office": "Stylish home office with bookshelf, plant, and soft window light; clean desk, blurred depth of field, empty center for webcam",
+  "business-professional": "Modern office background with clean lines, neutral blues and greys, subtle depth of field, soft natural light, unobtrusive décor behind speaker area",
+  "photorealistic": "Realistic modern room with blurred background elements, cinematic lighting, soft shallow DOF, clear central area for subject",
+  "futuristic-minimal": "Sleek, minimal white environment with soft blue ambient light, curved surfaces, subtle reflections, ideal focus space at center",
+  "abstract-gradient": "Calming pastel gradient background with soft vignetting, clean center zone for face visibility, light visual texture around edges",
+  "minimalist-plant": "Bright minimal space with white walls and green potted plants on sides, natural light, airy feel with centered empty zone",
+  "funny-cartoon": "Colorful Pixar-style cartoon office with whimsical details on the sides, bold pastel tones, central area left empty for webcam overlay",
+  "3d-clay-render": "Clay-style 3D render of an abstract room, soft overhead lighting, minimal shadows, symmetrical elements pushed to the sides",
+  "vintage-retro": "Retro workspace with warm tones, analog textures, typewriter and rotary phone on the sides, faded film light leaks, centered blank space",
+  "neon-cyberpunk": "Moody neon-lit tech background with magenta-cyan glow, side-lit panels, futuristic grid environment, clean center zone",
+  "scenic-nature": "Lush outdoor setting with distant trees, soft fog or morning light, centered open area with nature details on sides",
+  "minimalist-line-art": "Elegant black-and-white line art of a room with large windows or plants on the sides, large negative space in center for speaker",
+  "watercolor-wash": "Artistic soft watercolor room with pale colors, paper texture, light brushwork on the sides, faded center left blank",
+  "cozy-library": "Warm-toned room with bookshelves, soft lamp light, classic interior feel, clear center area",
+  "tech-loft": "Industrial tech loft with exposed brick, LED strips, modern furniture, neutral tones and centered empty focus zone"
 };
 
+/**
+ * Custom Web Component for generating virtual backgrounds
+ * Handles user input, API communication, and image display
+ */
 class BgGenerator extends HTMLElement {
   constructor() {
     super();
     console.log('BgGenerator constructor called');
+    
+    // Create shadow DOM for component isolation
     this.root = this.attachShadow({mode: 'open'});
+    
+    // Component state management
     this.state = {
-      prompt: "",
-      style: "neon-cyberpunk",
-      imageSrc: null,
-      loading: false,
-      lastPrompt: "",
-      isLoading: false,
-      error: null
+      prompt: "",           // Current user input text
+      style: "funny-cartoon", // Selected visual style
+      imageSrc: null,       // Generated image URL
+      loading: false,       // Loading state for UI feedback
+      lastPrompt: "",       // Previous prompt for regeneration
+      isLoading: false,     // Alternative loading flag
+      error: null          // Error state
     };
 
-    // внутренние свойства для анимации скачивания
-    this._isDownloading = false;
-    this._downloadTimer = null;
+    // Internal properties for download animation
+    this._isDownloading = false;  // Prevents multiple simultaneous downloads
+    this._downloadTimer = null;   // Timer for download animation
   }
 
+  /**
+   * Lifecycle method called when component is added to DOM
+   * Initializes the component and sets up event handling
+   */
   connectedCallback() {
     console.log('BgGenerator connected to DOM');
     this.render();
     this.setupEventListeners();
   }
 
+  /**
+   * Renders the component UI based on current state
+   * Creates the complete HTML structure with styles
+   */
   render() {
     console.log('Rendering widget with state:', this.state);
     this.root.innerHTML = `
       <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;530&display=swap');
 
+        /* Component host styling */
         :host {
           display: block;
           width: 100%;
@@ -54,6 +78,7 @@ class BgGenerator extends HTMLElement {
           font-weight: 530;
         }
 
+        /* Main container layout */
         .container {
           display: flex;
           flex-direction: column;
@@ -64,12 +89,14 @@ class BgGenerator extends HTMLElement {
           box-sizing: border-box;
         }
 
+        /* Input area container */
         .prompt-container {
           display: flex;
           justify-content: center;
           width: 100%;
         }
 
+        /* Main input bar with integrated controls */
         .prompt-bar {
           width: 100%;
           max-width: 960px;
@@ -97,6 +124,8 @@ class BgGenerator extends HTMLElement {
           width: 50%;
           height: 100%;
         }
+        
+        /* Text input styling */
         .prompt-bar input {
           flex: 1;
           border: none;
@@ -113,12 +142,16 @@ class BgGenerator extends HTMLElement {
           color: #7b8794;
           font-weight: 500;
         }
+        
+        /* Visual separator */
         .divider {
           width: 1px;
           height: 2rem;
           background: #e2e8f0;
           margin: 0 0.5rem;
         }
+        
+        /* Dropdown arrow icon */
         .select-icon {
           color: #b0b8c1 !important;
           font-size: 0.85rem !important;
@@ -128,6 +161,8 @@ class BgGenerator extends HTMLElement {
           user-select: none;
           line-height: 1;
         }
+        
+        /* Style selector dropdown */
         .prompt-bar select {
           border: none;
           background: transparent;
@@ -148,6 +183,8 @@ class BgGenerator extends HTMLElement {
           background-position: right 0.5rem center;
           background-size: 1rem 1rem;
         }
+        
+        /* Primary action button */
         .prompt-bar button#create-button {
           background: #1673ff;
           color: #fff;
@@ -170,6 +207,7 @@ class BgGenerator extends HTMLElement {
           cursor: not-allowed;
         }
 
+        /* Image preview area */
         .preview-container {
           flex: 1;
           display: flex;
@@ -180,6 +218,8 @@ class BgGenerator extends HTMLElement {
           width: 100%;
           min-height: 0;
         }
+        
+        /* Zoom-style window frame */
         .zoom-window {
           position: relative;
           width: 100%;
@@ -192,6 +232,8 @@ class BgGenerator extends HTMLElement {
           display: flex;
           flex-direction: column;
         }
+        
+        /* Window header with traffic light dots */
         .zoom-header {
           height: 2.2rem;
           background: #23272b;
@@ -219,6 +261,8 @@ class BgGenerator extends HTMLElement {
           font-weight: 500;
           color: #fff;
         }
+        
+        /* Main content area for image display */
         .zoom-content {
           flex: 1;
           display: flex;
@@ -238,6 +282,7 @@ class BgGenerator extends HTMLElement {
           box-shadow: none;
           display: block;
         }
+        
         /* ================= LOADING OVERLAY ================= */
         .loading-overlay {
           position: absolute;
@@ -257,6 +302,8 @@ class BgGenerator extends HTMLElement {
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
+        
+        /* Animated progress bar */
         .loader-track {
           position: relative;
           width: 100%;
@@ -272,12 +319,14 @@ class BgGenerator extends HTMLElement {
           background: linear-gradient(90deg, #1673ff, #005ae0);
           border-radius: 9999px;
           transform: translateX(0);
-          animation: loader-slide 3s ease-in-out infinite alternate; /* ускорено в 2 раза */
+          animation: loader-slide 3s ease-in-out infinite alternate; /* accelerated 2x */
         }
         @keyframes loader-slide {
           0%   { transform: translateX(0%); }
-          100% { transform: translateX(300%); } /* 25% * 3 = 75% пути */
+          100% { transform: translateX(300%); } /* 25% * 3 = 75% path */
         }
+        
+        /* Bottom toolbar with meeting controls */
         .zoom-icons {
           display: flex;
           justify-content: center;
@@ -300,6 +349,8 @@ class BgGenerator extends HTMLElement {
           font-size: 1.3rem;
           box-shadow: 0 1px 2px rgba(0,0,0,0.10);
         }
+        
+        /* Action buttons below preview */
         .zoom-controls {
           display: flex;
           justify-content: center;
@@ -339,6 +390,7 @@ class BgGenerator extends HTMLElement {
           color: #005ae0;
         }
 
+        /* Mobile responsive design */
         @media (max-width: 480px) {
           .container {
             padding: 0.5rem 0;
@@ -446,16 +498,21 @@ class BgGenerator extends HTMLElement {
             </div>
             <div class="style-row">
               <select>
+                <option value="modern-home-office" ${this.state.style === 'modern-home-office' ? 'selected' : ''}>Modern Home Office</option>
                 <option value="business-professional" ${this.state.style === 'business-professional' ? 'selected' : ''}>Business Professional</option>
-                <option value="funny-cartoon" ${this.state.style === 'funny-cartoon' ? 'selected' : ''}>Funny Cartoon</option>
-                <option value="neon-cyberpunk" ${this.state.style === 'neon-cyberpunk' ? 'selected' : ''}>Neon Cyberpunk</option>
-                <option value="futuristic-minimal" ${this.state.style === 'futuristic-minimal' ? 'selected' : ''}>Futuristic Minimal</option>
-                <option value="vintage-retro" ${this.state.style === 'vintage-retro' ? 'selected' : ''}>Vintage Retro</option>
-                <option value="abstract-gradient" ${this.state.style === 'abstract-gradient' ? 'selected' : ''}>Abstract Gradient</option>
                 <option value="photorealistic" ${this.state.style === 'photorealistic' ? 'selected' : ''}>Photorealistic</option>
-                <option value="watercolor-wash" ${this.state.style === 'watercolor-wash' ? 'selected' : ''}>Watercolor Wash</option>
+                <option value="futuristic-minimal" ${this.state.style === 'futuristic-minimal' ? 'selected' : ''}>Futuristic Minimal</option>
+                <option value="abstract-gradient" ${this.state.style === 'abstract-gradient' ? 'selected' : ''}>Abstract Gradient</option>
+                <option value="minimalist-plant" ${this.state.style === 'minimalist-plant' ? 'selected' : ''}>Minimalist Plant</option>
+                <option value="funny-cartoon" ${this.state.style === 'funny-cartoon' ? 'selected' : ''}>Funny Cartoon</option>
                 <option value="3d-clay-render" ${this.state.style === '3d-clay-render' ? 'selected' : ''}>3D Clay Render</option>
+                <option value="vintage-retro" ${this.state.style === 'vintage-retro' ? 'selected' : ''}>Vintage Retro</option>
+                <option value="neon-cyberpunk" ${this.state.style === 'neon-cyberpunk' ? 'selected' : ''}>Neon Cyberpunk</option>
+                <option value="scenic-nature" ${this.state.style === 'scenic-nature' ? 'selected' : ''}>Scenic Nature</option>
                 <option value="minimalist-line-art" ${this.state.style === 'minimalist-line-art' ? 'selected' : ''}>Minimalist Line Art</option>
+                <option value="watercolor-wash" ${this.state.style === 'watercolor-wash' ? 'selected' : ''}>Watercolor Wash</option>
+                <option value="cozy-library" ${this.state.style === 'cozy-library' ? 'selected' : ''}>Cozy Library</option>
+                <option value="tech-loft" ${this.state.style === 'tech-loft' ? 'selected' : ''}>Tech Loft</option>
               </select>
               <button id="create-button" ${!this.state.prompt ? 'disabled' : ''}>Create</button>
             </div>
@@ -474,7 +531,7 @@ class BgGenerator extends HTMLElement {
                 ? `<div class="loading-overlay"><div class="loading-text">Generating</div><div class="loader-track"><div class="loader-bar"></div></div></div>`
                 : this.state.imageSrc
                   ? `<img src="${this.state.imageSrc}" alt="Generated background">`
-                  : `<img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1200" alt="Preview" />`
+                  : `<img src="https://cdn.prod.website-files.com/66b28e0f6bb6fd9735a480d7/6772ab0ab66e3dddbed47d31_2f7bf56a-7c86-4ea0-bb38-aeda95c0c9b3.png" alt="Preview" />`
               }
             </div>
             <div class="zoom-icons">
@@ -495,7 +552,7 @@ class BgGenerator extends HTMLElement {
       </div>
     `;
 
-    // Обновляем состояние кнопок после рендеринга
+    // Update button states after rendering
     const regenerateButton = this.root.querySelector('#regenerate-button');
     const downloadButton = this.root.querySelector('#download-button');
     
@@ -507,10 +564,14 @@ class BgGenerator extends HTMLElement {
     }
   }
 
+  /**
+   * Sets up event listeners for user interactions
+   * Uses event delegation for better performance
+   */
   setupEventListeners() {
     console.log('Setting up event listeners');
     
-    // ДЕЛЕГИРОВАНИЕ: клики по кнопкам
+    // DELEGATION: button clicks - handles all button interactions
     this.root.addEventListener('click', (e) => {
       const target = e.target;
       console.log('Click target:', target);
@@ -533,7 +594,7 @@ class BgGenerator extends HTMLElement {
       }
     });
 
-    // ДЕЛЕГИРОВАНИЕ: изменение текста в input
+    // DELEGATION: input text changes - updates prompt state in real-time
     this.root.addEventListener('input', (e) => {
       const target = e.target;
       if (target && target.tagName === 'INPUT') {
@@ -544,7 +605,7 @@ class BgGenerator extends HTMLElement {
       }
     });
 
-    // ДЕЛЕГИРОВАНИЕ: обработка нажатия Enter в input
+    // DELEGATION: Enter key in input - triggers generation on Enter press
     this.root.addEventListener('keydown', (e) => {
       const target = e.target;
       if (target && target.tagName === 'INPUT' && e.key === 'Enter') {
@@ -555,7 +616,7 @@ class BgGenerator extends HTMLElement {
       }
     });
 
-    // ДЕЛЕГИРОВАНИЕ: изменение select
+    // DELEGATION: select changes - updates selected style
     this.root.addEventListener('change', (e) => {
       const target = e.target;
       if (target && target.tagName === 'SELECT') {
@@ -565,10 +626,21 @@ class BgGenerator extends HTMLElement {
     });
   }
 
+  /**
+   * Composes the final prompt for AI image generation
+   * Combines user input with style-specific instructions
+   * @param {string} userPrompt - User's description
+   * @param {string} stylePrompt - Style-specific visual instructions
+   * @returns {string} Complete prompt for AI generation
+   */
   composePrompt(userPrompt, stylePrompt) {
     return `generate 16:9 background for zoom meeting; Apply style: ${stylePrompt}.\nUser requirements: on the picture must be ${userPrompt}. MANDATORY RULE: keep the entire vertical middle third totally blank; place every element strictly at the extreme left or right, angled toward the center.`;
   }
 
+  /**
+   * Generates a new background image based on user input
+   * Handles API communication and state management
+   */
   async generate() {
     console.log('Generate called with prompt:', this.state.prompt);
     if (!this.state.prompt || this.state.loading) {
@@ -576,17 +648,17 @@ class BgGenerator extends HTMLElement {
       return;
     }
     
-    // Сохраняем текущий промпт для генерации
+    // Save current prompt for generation
     const currentPrompt = this.state.prompt;
     this.state.lastPrompt = currentPrompt;
     
-    // Очищаем промпт и сбрасываем состояние
+    // Clear prompt and reset state
     this.state.prompt = "";
     this.state.loading = true;
     this.state.imageSrc = null;
     this.render();
 
-    // Получаем стиль-промпт в зависимости от выбранного стиля
+    // Get style prompt based on selected style
     const stylePrompt = STYLE_PROMPTS[this.state.style] || STYLE_PROMPTS['photorealistic'];
 
     const fullPrompt = this.composePrompt(currentPrompt, stylePrompt);
@@ -617,13 +689,17 @@ class BgGenerator extends HTMLElement {
       this.state.imageSrc = data.url;
     } catch (error) {
       console.error('Generation error:', error);
-      alert(error.message || 'Ошибка генерации. Попробуйте снова.');
+      alert(error.message || 'Generation error. Please try again.');
     } finally {
       this.state.loading = false;
       this.render();
     }
   }
 
+  /**
+   * Regenerates the last background with the same prompt
+   * Useful for getting variations of the same concept
+   */
   async regenerate() {
     console.log('Regenerate called with last prompt:', this.state.lastPrompt);
     if (!this.state.lastPrompt || this.state.loading) {
@@ -631,15 +707,15 @@ class BgGenerator extends HTMLElement {
       return;
     }
     
-    // Используем последний промпт для регенерации
+    // Use last prompt for regeneration
     const currentPrompt = this.state.lastPrompt;
     
-    // Сбрасываем состояние
+    // Reset state
     this.state.loading = true;
     this.state.imageSrc = null;
     this.render();
 
-    // Получаем стиль-промпт в зависимости от выбранного стиля
+    // Get style prompt based on selected style
     const stylePromptRe = STYLE_PROMPTS[this.state.style] || STYLE_PROMPTS['photorealistic'];
     const fullPromptRe = this.composePrompt(currentPrompt, stylePromptRe);
 
@@ -670,23 +746,27 @@ class BgGenerator extends HTMLElement {
       this.state.imageSrc = data.url;
     } catch (error) {
       console.error('Regeneration error:', error);
-      alert(error.message || 'Ошибка регенерации. Попробуйте снова.');
+      alert(error.message || 'Regeneration error. Please try again.');
     } finally {
       this.state.loading = false;
       this.render();
     }
   }
 
+  /**
+   * Downloads the generated background image
+   * Handles file download with visual feedback
+   */
   async download() {
     if (!this.state.imageSrc) return;
     const downloadBtn = this.root.querySelector('#download-button');
     if (this._isDownloading || !downloadBtn) return;
 
-    // фиксируем текущую ширину, чтобы избежать скачков
+    // fix current width to avoid jumps
     const btnWidth = downloadBtn.offsetWidth;
     downloadBtn.style.width = `${btnWidth}px`;
 
-    // показываем статичный текст с тремя точками
+    // show static text with three dots
     this._isDownloading = true;
     downloadBtn.disabled = true;
     downloadBtn.textContent = 'Downloading...';
@@ -711,7 +791,7 @@ class BgGenerator extends HTMLElement {
       console.error('Download failed', e);
       alert('Failed to download image');
     } finally {
-      // завершаем состояние скачивания
+      // finish download state
       if (this._downloadTimer) clearInterval(this._downloadTimer);
       this._downloadTimer = null;
       this._isDownloading = false;
@@ -724,6 +804,7 @@ class BgGenerator extends HTMLElement {
   }
 }
 
+// Register the custom element if not already registered
 if (!customElements.get('bg-generator')) {
   console.log('Registering custom element');
   customElements.define('bg-generator', BgGenerator);
