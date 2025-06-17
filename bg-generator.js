@@ -634,7 +634,7 @@ class BgGenerator extends HTMLElement {
    * @returns {string} Complete prompt for AI generation
    */
   composePrompt(userPrompt, stylePrompt) {
-    return `generate 16:9 background for zoom meeting; Apply style: ${stylePrompt}.\nUser requirements: on the picture must be ${userPrompt}. MANDATORY RULE: keep the entire vertical middle third totally blank; place every element strictly at the extreme left or right, angled toward the center.`;
+    return `generate a background for zoom meeting; Apply style: ${stylePrompt}.\nUser requirements: on the picture must be ${userPrompt}. MANDATORY RULE: keep the entire vertical middle third totally blank; place every element strictly at the extreme left or right, angled toward the center.`;
   }
 
   /**
