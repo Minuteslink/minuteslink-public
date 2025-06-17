@@ -60,12 +60,19 @@ class BgGenerator extends HTMLElement {
           width: 100%;
           height: 100%;
           background-color: rgb(248, 250, 252);
-          padding: 2rem;
+          padding: 2rem 0;
           box-sizing: border-box;
+        }
+
+        .prompt-container {
+          display: flex;
+          justify-content: center;
+          width: 100%;
         }
 
         .prompt-bar {
           width: 100%;
+          max-width: 960px;
           display: flex;
           align-items: center;
           height: 3.5rem;
@@ -87,7 +94,7 @@ class BgGenerator extends HTMLElement {
           display: grid;
           grid-template-columns: 1fr auto;
           gap: 0;
-          width: 100%;
+          width: 50%;
           height: 100%;
         }
         .prompt-bar input {
@@ -129,16 +136,16 @@ class BgGenerator extends HTMLElement {
           font-family: inherit;
           font-weight: 500;
           height: 100%;
-          padding: 0 1.2rem 0 0.5rem;
+          padding: 0 1.7rem 0 0.5rem;
           outline: none;
           cursor: pointer;
           appearance: none;
-          width: 100%;
+          width: auto;
           min-width: 0;
           box-sizing: border-box;
           background-image: url('data:image/svg+xml;utf8,<svg fill="%23b0b8c1" height="16" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>');
           background-repeat: no-repeat;
-          background-position: right 0.7rem center;
+          background-position: right 0.5rem center;
           background-size: 1rem 1rem;
         }
         .prompt-bar button#create-button {
@@ -334,7 +341,7 @@ class BgGenerator extends HTMLElement {
 
         @media (max-width: 480px) {
           .container {
-            padding: 0.5rem;
+            padding: 0.5rem 0;
           }
           .prompt-bar {
             flex-direction: column;
@@ -375,7 +382,7 @@ class BgGenerator extends HTMLElement {
             border: 1px solid #e2e8f0;
             border-radius: 1.2rem 0 0 1.2rem;
             background: #fff;
-            width: 100%;
+            width: auto;
             min-width: 0;
             box-sizing: border-box;
             margin: 0;
@@ -408,7 +415,7 @@ class BgGenerator extends HTMLElement {
           }
           .zoom-window {
             border-radius: 0.7rem;
-            max-width: 100vw;
+            max-width: 100%;
             width: 100%;
             aspect-ratio: 9/16;
             min-width: 0;
@@ -432,24 +439,26 @@ class BgGenerator extends HTMLElement {
         }
       </style>
       <div class="container">
-        <div class="prompt-bar">
-          <div class="prompt-row">
-            <input type="text" placeholder="Describe your perfect backdrop…" value="${this.state.prompt}">
-          </div>
-          <div class="style-row">
-            <select>
-              <option value="business-professional" ${this.state.style === 'business-professional' ? 'selected' : ''}>Business Professional</option>
-              <option value="funny-cartoon" ${this.state.style === 'funny-cartoon' ? 'selected' : ''}>Funny Cartoon</option>
-              <option value="neon-cyberpunk" ${this.state.style === 'neon-cyberpunk' ? 'selected' : ''}>Neon Cyberpunk</option>
-              <option value="futuristic-minimal" ${this.state.style === 'futuristic-minimal' ? 'selected' : ''}>Futuristic Minimal</option>
-              <option value="vintage-retro" ${this.state.style === 'vintage-retro' ? 'selected' : ''}>Vintage Retro</option>
-              <option value="abstract-gradient" ${this.state.style === 'abstract-gradient' ? 'selected' : ''}>Abstract Gradient</option>
-              <option value="photorealistic" ${this.state.style === 'photorealistic' ? 'selected' : ''}>Photorealistic</option>
-              <option value="watercolor-wash" ${this.state.style === 'watercolor-wash' ? 'selected' : ''}>Watercolor Wash</option>
-              <option value="3d-clay-render" ${this.state.style === '3d-clay-render' ? 'selected' : ''}>3D Clay Render</option>
-              <option value="minimalist-line-art" ${this.state.style === 'minimalist-line-art' ? 'selected' : ''}>Minimalist Line Art</option>
-            </select>
-            <button id="create-button" ${!this.state.prompt ? 'disabled' : ''}>Create</button>
+        <div class="prompt-container">
+          <div class="prompt-bar">
+            <div class="prompt-row">
+              <input type="text" placeholder="Describe your perfect backdrop…" value="${this.state.prompt}">
+            </div>
+            <div class="style-row">
+              <select>
+                <option value="business-professional" ${this.state.style === 'business-professional' ? 'selected' : ''}>Business Professional</option>
+                <option value="funny-cartoon" ${this.state.style === 'funny-cartoon' ? 'selected' : ''}>Funny Cartoon</option>
+                <option value="neon-cyberpunk" ${this.state.style === 'neon-cyberpunk' ? 'selected' : ''}>Neon Cyberpunk</option>
+                <option value="futuristic-minimal" ${this.state.style === 'futuristic-minimal' ? 'selected' : ''}>Futuristic Minimal</option>
+                <option value="vintage-retro" ${this.state.style === 'vintage-retro' ? 'selected' : ''}>Vintage Retro</option>
+                <option value="abstract-gradient" ${this.state.style === 'abstract-gradient' ? 'selected' : ''}>Abstract Gradient</option>
+                <option value="photorealistic" ${this.state.style === 'photorealistic' ? 'selected' : ''}>Photorealistic</option>
+                <option value="watercolor-wash" ${this.state.style === 'watercolor-wash' ? 'selected' : ''}>Watercolor Wash</option>
+                <option value="3d-clay-render" ${this.state.style === '3d-clay-render' ? 'selected' : ''}>3D Clay Render</option>
+                <option value="minimalist-line-art" ${this.state.style === 'minimalist-line-art' ? 'selected' : ''}>Minimalist Line Art</option>
+              </select>
+              <button id="create-button" ${!this.state.prompt ? 'disabled' : ''}>Create</button>
+            </div>
           </div>
         </div>
         <div class="preview-container">
