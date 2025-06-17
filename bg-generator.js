@@ -89,6 +89,19 @@ class BgGenerator extends HTMLElement {
           box-sizing: border-box;
         }
 
+        /* Main heading */
+        .main-heading {
+          text-align: center;
+          font-family: 'DM Sans', sans-serif;
+          font-variation-settings: "wght" 700;
+          font-weight: 700;
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+          color: #1a202c;
+          margin: 0 0 2rem 0;
+          line-height: 1.2;
+          letter-spacing: -0.02em;
+        }
+
         /* Input area container */
         .prompt-container {
           display: flex;
@@ -395,6 +408,12 @@ class BgGenerator extends HTMLElement {
           .container {
             padding: 0.5rem 0;
           }
+          
+          .main-heading {
+            font-size: clamp(1.25rem, 6vw, 1.75rem);
+            margin: 0 0 1rem 0;
+          }
+          
           .prompt-bar {
             flex-direction: column;
             height: auto;
@@ -491,6 +510,7 @@ class BgGenerator extends HTMLElement {
         }
       </style>
       <div class="container">
+        <h1 class="main-heading">Create your own background</h1>
         <div class="prompt-container">
           <div class="prompt-bar">
             <div class="prompt-row">
