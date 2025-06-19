@@ -101,7 +101,7 @@ class MLAIChat extends HTMLElement {
         });
         
         if (keysToRemove.length > 0) {
-            console.log(`�� [ML-AI-Chat] Cleaned ${keysToRemove.length} old sessions`);
+            console.log(`🧹 [ML-AI-Chat] Cleaned ${keysToRemove.length} old sessions`);
         }
     }
     
@@ -158,7 +158,7 @@ class MLAIChat extends HTMLElement {
                 .chat-title {
                     font-weight: 600;
                     color: var(--ml-chat-text);
-                    font-size: 17px;
+                    font-size: 1.625rem;
                     margin: 0;
                     letter-spacing: -0.4px;
                 }
@@ -173,7 +173,7 @@ class MLAIChat extends HTMLElement {
                     border-radius: 8px;
                     padding: 8px;
                     cursor: pointer;
-                    font-size: 16px;
+                    font-size: 1.625rem;
                     color: var(--ml-chat-text-secondary);
                     transition: all 0.2s ease;
                 }
@@ -227,7 +227,7 @@ class MLAIChat extends HTMLElement {
                 
                 .message-content {
                     word-wrap: break-word;
-                    font-size: 15px;
+                    font-size: 1.625rem;
                     line-height: 1.6;
                     color: var(--ml-chat-text);
                     margin: 0;
@@ -265,12 +265,12 @@ class MLAIChat extends HTMLElement {
                     line-height: 1.4;
                 }
                 
-                .message-content h1 { font-size: 20px; }
-                .message-content h2 { font-size: 18px; }
-                .message-content h3 { font-size: 16px; }
-                .message-content h4 { font-size: 15px; }
-                .message-content h5 { font-size: 14px; }
-                .message-content h6 { font-size: 13px; }
+                .message-content h1 { font-size: 2.5rem; }
+                .message-content h2 { font-size: 2.25rem; }
+                .message-content h3 { font-size: 2rem; }
+                .message-content h4 { font-size: 1.875rem; }
+                .message-content h5 { font-size: 1.75rem; }
+                .message-content h6 { font-size: 1.625rem; }
                 
                 .message-content p {
                     margin: 8px 0;
@@ -293,7 +293,7 @@ class MLAIChat extends HTMLElement {
                     padding: 2px 6px;
                     border-radius: 4px;
                     font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-                    font-size: 13px;
+                    font-size: 1.625rem;
                     color: var(--ml-chat-text);
                     border: 1px solid var(--ml-chat-border);
                 }
@@ -350,7 +350,7 @@ class MLAIChat extends HTMLElement {
                     border-collapse: collapse;
                     width: 100%;
                     margin: 12px 0;
-                    font-size: 14px;
+                    font-size: 1.625rem;
                 }
                 
                 .message-content table th,
@@ -390,7 +390,7 @@ class MLAIChat extends HTMLElement {
                     border: 1px solid transparent;
                     border-radius: 10px;
                     cursor: pointer;
-                    font-size: 14px;
+                    font-size: 1.625rem;
                     color: var(--ml-chat-text);
                     transition: all 0.2s ease;
                     font-family: inherit;
@@ -433,19 +433,17 @@ class MLAIChat extends HTMLElement {
                 }
                 
                 .chat-input {
-                    flex: 1;
                     border: none;
                     outline: none;
                     background: transparent;
+                    width: 100%;
+                    font-size: 1.625rem;
                     color: var(--ml-chat-text);
-                    font-size: 15px;
                     font-family: inherit;
-                    line-height: 1.4;
                     resize: none;
+                    line-height: 1.4;
                     max-height: 120px;
-                    min-height: 20px;
-                    font-weight: 400;
-                    letter-spacing: -0.2px;
+                    overflow-y: auto;
                 }
                 
                 .chat-input::placeholder {
@@ -574,11 +572,42 @@ class MLAIChat extends HTMLElement {
                     }
                     
                     .chat-input {
-                        font-size: 16px; /* Prevents zoom on iOS */
+                        font-size: 1.125rem;
                     }
                     
                     .suggestions {
                         padding: 0 20px 16px;
+                    }
+                    
+                    .chat-title {
+                        font-size: 1.125rem;
+                    }
+                    
+                    .clear-btn {
+                        font-size: 1.125rem;
+                    }
+                    
+                    .message-content {
+                        font-size: 1.125rem;
+                    }
+                    
+                    .message-content h1 { font-size: 1.75rem; }
+                    .message-content h2 { font-size: 1.625rem; }
+                    .message-content h3 { font-size: 1.5rem; }
+                    .message-content h4 { font-size: 1.375rem; }
+                    .message-content h5 { font-size: 1.25rem; }
+                    .message-content h6 { font-size: 1.125rem; }
+                    
+                    .message-content code {
+                        font-size: 1.125rem;
+                    }
+                    
+                    .message-content table {
+                        font-size: 1.125rem;
+                    }
+                    
+                    .suggestion-btn {
+                        font-size: 1.125rem;
                     }
                 }
                 
