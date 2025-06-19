@@ -48,27 +48,6 @@ class MLAIChat extends HTMLElement {
         this.style.display = 'block';
     }
     
-    // Debug logging function - respects _debug parameter
-    log(...args) {
-        if (this.params._debug !== 'false') {
-            console.log(...args);
-        }
-    }
-    
-    // Error logging function - always shows errors unless explicitly disabled
-    logError(...args) {
-        if (this.params._debug !== 'false') {
-            console.error(...args);
-        }
-    }
-    
-    // Warning logging function
-    logWarn(...args) {
-        if (this.params._debug !== 'false') {
-            console.warn(...args);
-        }
-    }
-    
     parseParams(paramsString) {
         const params = {};
         if (!paramsString.trim()) {
@@ -86,7 +65,7 @@ class MLAIChat extends HTMLElement {
             params[paramName] = paramValue;
         }
 
-        this.log('📋 [ML-AI-Chat] Parsed params:', params);
+        console.log('📋 [ML-AI-Chat] Parsed params:', params);
         return params;
     }
     
@@ -101,7 +80,7 @@ class MLAIChat extends HTMLElement {
     initializeSession() {
         // Always create new session when page loads
         this.sessionId = this.generateUUID();
-        this.log(`🆕 [ML-AI-Chat] Created new session: ${this.sessionId}`);
+        console.log(`🆕 [ML-AI-Chat] Created new session: ${this.sessionId}`);
         
         // Clear old sessions from sessionStorage
         this.cleanupOldSessions();
@@ -122,13 +101,13 @@ class MLAIChat extends HTMLElement {
         });
         
         if (keysToRemove.length > 0) {
-            this.log(`🧹 [ML-AI-Chat] Cleaned ${keysToRemove.length} old sessions`);
+            console.log(`�� [ML-AI-Chat] Cleaned ${keysToRemove.length} old sessions`);
         }
     }
     
     restoreMessages() {
         // For new session always generate welcome message
-        this.log('📭 [ML-AI-Chat] New session, generating welcome message...');
+        console.log('📭 [ML-AI-Chat] New session, generating welcome message...');
         this.generateWelcome();
     }
     
@@ -836,7 +815,7 @@ class MLAIChat extends HTMLElement {
             this.setState('answer');
             
         } catch (error) {
-            this.logError('API error:', error);
+            console.error('API error:', error);
             this.removeSkeleton();
             await this.addMessage('Sorry, an error occurred. Please try again.', 'ai');
             this.setState('idle');
@@ -844,19 +823,19 @@ class MLAIChat extends HTMLElement {
     }
     
     extractPageContent() {
-        this.log('🔍 [ML-AI-Chat] Extracting page content...');
+        console.log('🔍 [ML-AI-Chat] Extracting page content...');
         
         // Extract text from the entire page, excluding scripts and styles
         const content = document.cloneNode(true);
         
         // Remove unnecessary elements
         const elementsToRemove = content.querySelectorAll('script, style, noscript, meta, link, title');
-        this.log(`🧹 [ML-AI-Chat] Removing ${elementsToRemove.length} unnecessary elements`);
+        console.log(`🧹 [ML-AI-Chat] Removing ${elementsToRemove.length} unnecessary elements`);
         elementsToRemove.forEach(el => el.remove());
         
         // Remove our chat widget so it doesn't get into context
         const chatWidgets = content.querySelectorAll('ml-ai-chat');
-        this.log(`🤖 [ML-AI-Chat] Removing ${chatWidgets.length} chat widgets`);
+        console.log(`🤖 [ML-AI-Chat] Removing ${chatWidgets.length} chat widgets`);
         chatWidgets.forEach(el => el.remove());
         
         // Get clean text
@@ -866,7 +845,7 @@ class MLAIChat extends HTMLElement {
         const cleanText = text.replace(/\s+/g, ' ').trim();
         const finalText = cleanText.substring(0, 20000);
         
-        this.log(`📝 [ML-AI-Chat] Extracted page text:`, {
+        console.log(`📝 [ML-AI-Chat] Extracted page text:`, {
             originalLength: text.length,
             cleanedLength: cleanText.length,
             finalLength: finalText.length,
@@ -878,7 +857,7 @@ class MLAIChat extends HTMLElement {
     }
 
     async generateWelcome() {
-        this.log('👋 [ML-AI-Chat] Generating welcome message...');
+        console.log('👋 [ML-AI-Chat] Generating welcome message...');
         
         // Remove static welcome message
         const welcomeMsg = this.shadowRoot.querySelector('.welcome-message');
@@ -903,7 +882,7 @@ class MLAIChat extends HTMLElement {
                 params: this.params
             };
             
-            this.log('📤 [ML-AI-Chat] Sending request for welcome message generation:', {
+            console.log('📤 [ML-AI-Chat] Sending request for welcome message generation:', {
                 session_id: payload.session_id,
                 page_url: payload.page_url,
                 contentLength: payload.page_content.length,
@@ -942,10 +921,10 @@ class MLAIChat extends HTMLElement {
             
             this.setState('idle');
             
-            this.log('✅ [ML-AI-Chat] Welcome message loaded and saved');
+            console.log('✅ [ML-AI-Chat] Welcome message loaded and saved');
             
         } catch (error) {
-            this.logError('❌ [ML-AI-Chat] Welcome loading error:', error);
+            console.error('❌ [ML-AI-Chat] Welcome loading error:', error);
             
             // Remove skeleton
             this.removeSkeleton();
@@ -983,7 +962,7 @@ class MLAIChat extends HTMLElement {
         if (isFirstUserMessage) {
             // First user request after welcome - context is already saved in backend
             payload.init = true;
-            this.log('📤 [ML-AI-Chat] First user request after welcome:', {
+            console.log('📤 [ML-AI-Chat] First user request after welcome:', {
                 session_id: payload.session_id,
                 message: payload.message,
                 init: payload.init,
@@ -993,7 +972,7 @@ class MLAIChat extends HTMLElement {
         } else if (!this.isInitialized) {
             // Case when welcome wasn't loaded (fallback)
             payload.page_content = this.extractPageContent();
-            this.log('📤 [ML-AI-Chat] Fallback: first request with page context:', {
+            console.log('📤 [ML-AI-Chat] Fallback: first request with page context:', {
                 session_id: payload.session_id,
                 page_url: payload.page_url,
                 message: payload.message,
@@ -1002,7 +981,7 @@ class MLAIChat extends HTMLElement {
                 params: payload.params
             });
         } else {
-            this.log('📤 [ML-AI-Chat] Regular request:', {
+            console.log('📤 [ML-AI-Chat] Regular request:', {
                 session_id: payload.session_id,
                 message: payload.message,
                 init: payload.init,
@@ -1080,7 +1059,7 @@ class MLAIChat extends HTMLElement {
                 const renderedHtml = markedLib.parse(text);
                 contentDiv.innerHTML = renderedHtml;
             } catch (error) {
-                this.logWarn('❌ [ML-AI-Chat] Markdown rendering error:', error);
+                console.warn('❌ [ML-AI-Chat] Markdown rendering error:', error);
                 // Fallback to plain text
                 contentDiv.textContent = text;
             }
@@ -1198,7 +1177,7 @@ class MLAIChat extends HTMLElement {
     saveToStorage() {
         // Saving disabled - new session on reload
         // Leaving method for backward compatibility
-        this.log('💾 [ML-AI-Chat] Saving to sessionStorage disabled (new session on reload)');
+        console.log('💾 [ML-AI-Chat] Saving to sessionStorage disabled (new session on reload)');
     }
     
     loadFromStorage() {
@@ -1256,7 +1235,7 @@ class MLAIChat extends HTMLElement {
             this.hideAllSuggestions();
             
             // Generate new welcome
-            this.log('🧹 [ML-AI-Chat] History cleared, new session created:', this.sessionId);
+            console.log('🧹 [ML-AI-Chat] History cleared, new session created:', this.sessionId);
             this.generateWelcome();
         }
     }
