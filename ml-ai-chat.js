@@ -156,7 +156,7 @@ class MLAIChat extends HTMLElement {
                 }
                 
                 .chat-title {
-                    font-weight: 600;
+                    font-weight: 400;
                     color: var(--ml-chat-text);
                     font-size: 1.625rem;
                     margin: 0;
@@ -241,7 +241,7 @@ class MLAIChat extends HTMLElement {
                     border-radius: 18px;
                     padding: 12px 16px;
                     max-width: 75%;
-                    font-weight: 500;
+                    font-weight: 400;
                     display: inline-block;
                     box-shadow: var(--ml-chat-shadow-light);
                 }
@@ -261,7 +261,7 @@ class MLAIChat extends HTMLElement {
                 .message-content h6 {
                     color: var(--ml-chat-text);
                     margin: 16px 0 8px 0;
-                    font-weight: 600;
+                    font-weight: 400;
                     line-height: 1.4;
                 }
                 
@@ -326,7 +326,7 @@ class MLAIChat extends HTMLElement {
                 
                 .message-content strong,
                 .message-content b {
-                    font-weight: 600;
+                    font-weight: 400;
                     color: var(--ml-chat-text);
                 }
                 
@@ -362,7 +362,7 @@ class MLAIChat extends HTMLElement {
                 
                 .message-content table th {
                     background: var(--ml-chat-input-bg);
-                    font-weight: 600;
+                    font-weight: 400;
                 }
                 
                 .message-content hr {
@@ -394,7 +394,7 @@ class MLAIChat extends HTMLElement {
                     color: var(--ml-chat-text);
                     transition: all 0.2s ease;
                     font-family: inherit;
-                    font-weight: 500;
+                    font-weight: 400;
                     letter-spacing: -0.2px;
                 }
                 
