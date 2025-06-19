@@ -29,7 +29,7 @@ class MLAIChat extends HTMLElement {
         this.currentState = 'idle'; // idle, loading, answer
         
         // Fixed backend URL (not a parameter)
-        this.backendUrl = 'http://localhost:8080';
+        this.backendUrl = 'https://widget-chat-with-page-backend-production.up.railway.app';
         
         // Parse parameters from params attribute
         this.params = this.parseParams(this.getAttribute('params') || '');
