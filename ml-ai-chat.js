@@ -227,7 +227,7 @@ class MLAIChat extends HTMLElement {
                 
                 .message-content {
                     word-wrap: break-word;
-                    font-size: 1.625rem;
+                    font-size: 1.25rem;
                     line-height: 1.6;
                     color: var(--ml-chat-text);
                     margin: 0;
@@ -588,7 +588,7 @@ class MLAIChat extends HTMLElement {
                     }
                     
                     .message-content {
-                        font-size: 1.125rem;
+                        font-size: .875rem;
                     }
                     
                     .message-content h1 { font-size: 1.75rem; }
